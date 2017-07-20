@@ -22,6 +22,8 @@ webpackEmptyContext.id = "../../../../../src async recursive";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__dashboard_component__ = __webpack_require__("../../../../../src/app/dashboard.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__heroes_component__ = __webpack_require__("../../../../../src/app/heroes.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__hero_detail_component__ = __webpack_require__("../../../../../src/app/hero-detail.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__saws_component__ = __webpack_require__("../../../../../src/app/saws.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__saw_detail_component__ = __webpack_require__("../../../../../src/app/saw-detail.component.ts");
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppRoutingModule; });
 //routing module to keep cluter out of our app.module
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -35,14 +37,18 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
+
+
 //this routes is /heroes and creates HeroesComponent
 //you can tell the router where to display the component
 //this is done in the HTML (routerlink/ router-outlet)
 var routes = [
-    { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
+    { path: '', redirectTo: '/api/saws', pathMatch: 'full' },
     { path: 'dashboard', component: __WEBPACK_IMPORTED_MODULE_2__dashboard_component__["a" /* DashboardComponent */] },
     { path: 'detail/:id', component: __WEBPACK_IMPORTED_MODULE_4__hero_detail_component__["a" /* HeroDetailComponent */] },
-    { path: 'heroes', component: __WEBPACK_IMPORTED_MODULE_3__heroes_component__["a" /* HeroesComponent */] }
+    { path: 'heroes', component: __WEBPACK_IMPORTED_MODULE_3__heroes_component__["a" /* HeroesComponent */] },
+    { path: 'api/saw/:_id', component: __WEBPACK_IMPORTED_MODULE_6__saw_detail_component__["a" /* SawDetailComponent */] },
+    { path: 'api/saws', component: __WEBPACK_IMPORTED_MODULE_5__saws_component__["a" /* SawsComponent */] }
 ];
 var AppRoutingModule = (function () {
     function AppRoutingModule() {
@@ -81,7 +87,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/app.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<h1>{{title}}</h1>\n<!-- sets up a link to the /heroes route -->\n    <nav>\n        <a routerLink=\"/dashboard\">Dashboard</a>\n        <a routerLink=\"/heroes\">Heroes</a>\n    </nav>\n    <router-outlet></router-outlet>"
+module.exports = "<h1>{{title}}</h1>\n<!-- sets up a link to the /heroes route -->\n    <nav>\n        <a routerLink=\"/dashboard\">Dashboard</a>\n        <a routerLink=\"/heroes\">Heroes</a>\n        <a routerLink=\"/api/saws\">Chainsaws</a>\n    </nav>\n    <router-outlet></router-outlet>\n    "
 
 /***/ }),
 
@@ -130,7 +136,10 @@ AppComponent = __decorate([
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__heroes_component__ = __webpack_require__("../../../../../src/app/heroes.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__hero_service__ = __webpack_require__("../../../../../src/app/hero.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__dashboard_component__ = __webpack_require__("../../../../../src/app/dashboard.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__app_routing_module__ = __webpack_require__("../../../../../src/app/app-routing.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__saw_detail_component__ = __webpack_require__("../../../../../src/app/saw-detail.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__saws_component__ = __webpack_require__("../../../../../src/app/saws.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__saw_service__ = __webpack_require__("../../../../../src/app/saw.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__app_routing_module__ = __webpack_require__("../../../../../src/app/app-routing.module.ts");
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -152,6 +161,10 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
+//import the saw stuff
+
+
+
 //routing module
 
 var AppModule = (function () {
@@ -166,6 +179,8 @@ AppModule = __decorate([
             __WEBPACK_IMPORTED_MODULE_4__app_component__["a" /* AppComponent */],
             __WEBPACK_IMPORTED_MODULE_5__hero_detail_component__["a" /* HeroDetailComponent */],
             __WEBPACK_IMPORTED_MODULE_6__heroes_component__["a" /* HeroesComponent */],
+            __WEBPACK_IMPORTED_MODULE_9__saw_detail_component__["a" /* SawDetailComponent */],
+            __WEBPACK_IMPORTED_MODULE_10__saws_component__["a" /* SawsComponent */],
             __WEBPACK_IMPORTED_MODULE_8__dashboard_component__["a" /* DashboardComponent */]
         ],
         //import angular modules
@@ -174,10 +189,10 @@ AppModule = __decorate([
             __WEBPACK_IMPORTED_MODULE_2__angular_forms__["a" /* FormsModule */],
             __WEBPACK_IMPORTED_MODULE_3__angular_http__["a" /* HttpModule */],
             /*** Routes ***/
-            __WEBPACK_IMPORTED_MODULE_9__app_routing_module__["a" /* AppRoutingModule */],
+            __WEBPACK_IMPORTED_MODULE_12__app_routing_module__["a" /* AppRoutingModule */],
         ],
         //injectable
-        providers: [__WEBPACK_IMPORTED_MODULE_7__hero_service__["a" /* HeroService */]],
+        providers: [__WEBPACK_IMPORTED_MODULE_7__hero_service__["a" /* HeroService */], __WEBPACK_IMPORTED_MODULE_11__saw_service__["a" /* SawService */]],
         bootstrap: [__WEBPACK_IMPORTED_MODULE_4__app_component__["a" /* AppComponent */]]
     })
 ], AppModule);
@@ -355,7 +370,7 @@ var HeroService = (function () {
         this.http = http;
         //this is where we get the hero data from
         //could be mock data or from a db
-        this.heroesUrl = 'api/saws'; // URL to web api
+        this.heroesUrl = '/heroes'; // URL to web api
         this.headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Headers */]({ 'Content-Type': 'application/json' });
     }
     //gets the array of heros
@@ -481,7 +496,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
-
+ //reference to service
 var HeroesComponent = (function () {
     //calls the server for data access
     function HeroesComponent(heroService) {
@@ -558,6 +573,343 @@ HeroesComponent = __decorate([
 
 var _a;
 //# sourceMappingURL=heroes.component.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/app/saw-detail.component.css":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/saw-detail.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "\n<!-- only display when a hero is selected -->\n  <div *ngIf=\"saw\">\n<!-- creates an error so wrap this in an *NgIf? -->\n    <h2>{{saw.model}} details!</h2>\n      <div><label>id: </label>{{saw.id}}</div>\n      <div>\n        <label>model: </label>\n            <!-- twoway data bind the hero.name so we can change it dynamicaly -->\n        <input [(ngModel)]=\"saw.model\" placeholder=\"model\"/>\n        <button (click)=\"save()\">Save</button>\n      </div>\n      <!-- goes back to /dashboard -->\n      <button (click)=\"goBack()\">Back</button>\n  </div>\n"
+
+/***/ }),
+
+/***/ "../../../../../src/app/saw-detail.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_common__ = __webpack_require__("../../../common/@angular/common.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_switchMap__ = __webpack_require__("../../../../rxjs/add/operator/switchMap.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_switchMap___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_switchMap__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__saw_service__ = __webpack_require__("../../../../../src/app/saw.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__saw__ = __webpack_require__("../../../../../src/app/saw.ts");
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SawDetailComponent; });
+/*** ERR  ***/
+//Property 'SawService' does not exist on type 'SawDetailComponent'
+//(method) ParamMap.get(name: string): string  --looking for a type number
+//i think this has to do with the way mLab has id: nested...
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+//import switch map
+
+
+
+var SawDetailComponent = (function () {
+    function SawDetailComponent(SawService, route, location) {
+        this.SawService = SawService;
+        this.route = route;
+        this.location = location;
+    }
+    SawDetailComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        //maps the id to a new observeable
+        this.route.paramMap
+            .switchMap(function (params) { return _this.SawService.getSaw(params.get('_id')); })
+            .subscribe(function (saw) { return _this.saw = saw; });
+    };
+    //takes the user back
+    SawDetailComponent.prototype.goBack = function () {
+        this.location.back();
+    };
+    return SawDetailComponent;
+}());
+__decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["O" /* Input */])(),
+    __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_5__saw__["a" /* Saw */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__saw__["a" /* Saw */]) === "function" && _a || Object)
+], SawDetailComponent.prototype, "saw", void 0);
+SawDetailComponent = __decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_14" /* Component */])({
+        selector: 'saw-detail',
+        template: __webpack_require__("../../../../../src/app/saw-detail.component.html"),
+        styles: [__webpack_require__("../../../../../src/app/saw-detail.component.css")]
+    })
+    //the exported class should be in upper camel case and end with Component
+    ,
+    __metadata("design:paramtypes", [typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_4__saw_service__["a" /* SawService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__saw_service__["a" /* SawService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* ActivatedRoute */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_2__angular_common__["g" /* Location */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_common__["g" /* Location */]) === "function" && _d || Object])
+], SawDetailComponent);
+
+var _a, _b, _c, _d;
+//# sourceMappingURL=saw-detail.component.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/app/saw.service.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_toPromise__ = __webpack_require__("../../../../rxjs/add/operator/toPromise.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_toPromise___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_toPromise__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SawService; });
+//saw service
+//data acquisition business to a single service that provides the data 
+//and share that service with all components that need the data
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+/*** ERR  ***/
+//Property 'SawService' does not exist on type 'SawDetailComponent'
+
+
+
+//this makes the service injectable into other areas
+var SawService = (function () {
+    function SawService(http) {
+        this.http = http;
+        //this is where we get the saw data from
+        this.sawsUrl = 'api/saws'; // URL to web api
+        this.headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Headers */]({ 'Content-Type': 'application/json' });
+    }
+    //gets the array of saws
+    SawService.prototype.getSaws = function () {
+        return this.http.get(this.sawsUrl)
+            .toPromise()
+            .then(function (response) { return response.json().data; })
+            .catch(this.handleError);
+    };
+    // for demo purposes only
+    SawService.prototype.handleError = function (error) {
+        console.error('An error occurred', error);
+        return Promise.reject(error.message || error);
+    };
+    //need this to fix the issue of not having a get hero method in the
+    //hero-detail.component.ts OnInit call
+    //method that filters the heroes list from getHeroes() by id
+    SawService.prototype.getSaw = function (_id) {
+        var url = this.sawsUrl + "/" + _id;
+        return this.http.get(url)
+            .toPromise()
+            .then(function (response) { return response.json().data; })
+            .catch(this.handleError);
+    };
+    //create a new hero
+    //the create method used in hero.component
+    SawService.prototype.create = function (model) {
+        return this.http
+            .post(this.sawsUrl, JSON.stringify({ model: model }), { headers: this.headers })
+            .toPromise()
+            .then(function (res) { return res.json().data; })
+            .catch(this.handleError);
+    };
+    //update a hero by id
+    //click function and handler in the hero.component file
+    SawService.prototype.update = function (saw) {
+        var url = this.sawsUrl + "/" + saw._id;
+        return this.http
+            .put(url, JSON.stringify(saw), { headers: this.headers })
+            .toPromise()
+            .then(function () { return saw; })
+            .catch(this.handleError);
+    };
+    //delete the hero by id
+    //click function and handler in the hero.component file
+    //cannot find _id why is this?
+    SawService.prototype.delete = function (_id) {
+        var url = this.sawsUrl + "/" + _id;
+        return this.http.delete(url, { headers: this.headers })
+            .toPromise()
+            .then(function () { return null; })
+            .catch(this.handleError);
+    };
+    return SawService;
+}());
+SawService = __decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["c" /* Injectable */])()
+    //this is where i need to wire up saws db
+    //implement saws instead of heroes
+    ,
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["c" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["c" /* Http */]) === "function" && _a || Object])
+], SawService);
+
+var _a;
+//# sourceMappingURL=saw.service.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/app/saw.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Saw; });
+var Saw = (function () {
+    function Saw() {
+    }
+    return Saw;
+}());
+
+//# sourceMappingURL=saw.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/app/saws.component.css":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/saws.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<h1>{{title}}</h1>\n\n  <h2>My Saws</h2>\n  <div>\n    <!-- the add button -->\n    <label>Saw model:</label> <input #sawModel />\n    <button (click)=\"add(sawModel.value); sawModel.value=''\">\n      Add\n    </button>\n</div>\n    <ul class=\"saws\">\n      <!-- bind the array of saws in the \n      component to the template, iterate over them, and display them -->\n      <!-- add a click event to connect the master to the detail -->\n      <!-- the \"onSelect\" click event passing in the saw as an argument -->\n      <!-- add selected class to the selected saw for styling purposes\n            in other words when clicked on, the handler changes the class name -->\n      <li *ngFor=\"let saw of saws\" (click)=\"onSelect(saw)\" \n        [class.selected]=\"saw === selectedSaw\">\n           <!-- each hero goes here -->\n           <button class=\"delete\"\n              (click)=\"delete(saw); $event.stopPropagation()\">x</button>\n           <span class=\"badge\">{{saw._id}}</span> {{saw.model}}\n      </li>\n    </ul>\n  <!-- comes from the saw-detail.component.ts file -->\n  <saw-detail [saw]=\"selectedSaw\"></saw-detail>"
+
+/***/ }),
+
+/***/ "../../../../../src/app/saws.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__saw_service__ = __webpack_require__("../../../../../src/app/saw.service.ts");
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SawsComponent; });
+//TODO: rebuild from in-memory-data.service
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+//Cannot find name 'saw'.
+
+ //reference to service
+var SawsComponent = (function () {
+    //calls the server for data access
+    function SawsComponent(sawService) {
+        this.sawService = sawService;
+    }
+    //add saw
+    //push saw
+    //clear input field
+    //need to create a .create method
+    SawsComponent.prototype.add = function (model) {
+        var _this = this;
+        //trims the spaces before and after string
+        model = model.trim();
+        //if no model make a new 'model'
+        if (!model) {
+            return;
+        }
+        this.sawService.create(model)
+            .then(function (saw) {
+            _this.saws.push(saw);
+            _this.selectedSaw = null;
+        });
+    };
+    //this is called as a result of getHeroes
+    SawsComponent.prototype.ngOnInit = function () {
+        this.getSaws();
+    };
+    //As a result of the change to HeroService, 
+    //this.heroes is now set to a Promise rather than an array of heroes.
+    SawsComponent.prototype.getSaws = function () {
+        var _this = this;
+        //call the service and get the data
+        //Pass the callback function as an argument to the Promise's then() method:
+        //NOTE** using the arrow syntax gives you access to the parent scope
+        this.sawService.getSaws().then(function (saws) { return _this.saws = saws; });
+        //The callback sets the component's heroes property
+        // to the array of heroes returned by the service
+    };
+    /*
+     //in the HTML use {{saw.model}} to access the saw because it is now a model
+      saw: Saw = {
+      id: 1,
+      model: 'Windstorm'
+      };
+    */
+    //select a saw when clicked, clicked is already bound in the HTML
+    SawsComponent.prototype.onSelect = function (saw) {
+        this.selectedSaw = saw;
+    };
+    //delete a saw click handler
+    //use sawService to build the delete method
+    SawsComponent.prototype.delete = function (saw) {
+        var _this = this;
+        this.sawService
+            .delete(saw._id)
+            .then(function () {
+            _this.saws = _this.saws.filter(function (h) { return h !== saw; });
+            if (_this.selectedSaw === saw) {
+                _this.selectedSaw = null;
+            }
+        });
+    };
+    return SawsComponent;
+}());
+SawsComponent = __decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_14" /* Component */])({
+        selector: 'my-saws',
+        template: __webpack_require__("../../../../../src/app/saws.component.html"),
+        styles: [__webpack_require__("../../../../../src/app/saws.component.css")],
+        //tells Angular to create a fresh instance of the 
+        //SawService when it creates an AppComponent
+        providers: [__WEBPACK_IMPORTED_MODULE_1__saw_service__["a" /* SawService */]]
+    }),
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__saw_service__["a" /* SawService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__saw_service__["a" /* SawService */]) === "function" && _a || Object])
+], SawsComponent);
+
+var _a;
+//# sourceMappingURL=saws.component.js.map
 
 /***/ }),
 
